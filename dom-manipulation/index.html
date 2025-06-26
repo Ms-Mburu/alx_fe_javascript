@@ -94,6 +94,17 @@
 
     <div id="quoteDisplay" class="quote-display">
       Pick a category and receive a gentle reminder.
+      <!-- Category Filter -->
+<div>
+  <label for="categoryFilter">Filter by category:</label>
+  <select id="categoryFilter" onchange="filterQuotes()">
+    <option value="all">All Categories</option>
+    <!-- Options populated by JavaScript -->
+  </select>
+</div>
+
+<!-- Filtered Quotes Display -->
+<div id="filteredQuotes" class="quote-box"></div>
     <!-- JSON Import / Export -->
     <div class="json-section">
       <h3>Import / Export Quotes</h3>
