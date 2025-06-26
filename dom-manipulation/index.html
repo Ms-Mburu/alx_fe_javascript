@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daily Affirmation & Quote Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(to right, #E0F7FA, #FCE4EC);
+      color: #3E3E3E;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .app-container {
+      max-width: 600px;
+      background-color: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #6A1B9A;
+    }
+
+    label, input, select, button {
+      display: block;
+      width: 100%;
+      margin-top: 10px;
+      font-size: 1rem;
+    }
+
+    select, input {
+      padding: 10px;
+      border: 1px solid #cccccc;
+      border-radius: 8px;
+    }
+
+    button {
+      background-color: #6A1B9A;
+      color: white;
+      border: none;
+      padding: 12px;
+      margin-top: 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #8E24AA;
+    }
+
+    .quote-display {
+      margin-top: 25px;
+      background: #F3E5F5;
+      border-left: 6px solid #6A1B9A;
+      padding: 20px;
+      border-radius: 12px;
+      font-style: italic;
+    }
+
+    hr {
+      margin: 30px 0;
+      border: none;
+      border-top: 1px solid #eee;
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #888;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <h1>✨ Daily Affirmation & Quote Generator ✨</h1>
+
+    <label for="categorySelect">Choose your focus area:</label>
+    <select id="categorySelect">
+      <option value="">--Select--</option>
+      <!-- JS will populate categories here -->
+    </select>
+
+    <button id="showQuoteBtn">Show Me a Quote</button>
+
+    <div id="quoteDisplay" class="quote-display">
+      Pick a category and receive a gentle reminder.
+    </div>
+
+    <hr />
+
+    <h3>Add New Category</h3>
+    <input type="text" id="newCategoryInput" placeholder="e.g., Self-Love, Boundaries" />
+    <button id="addCategoryBtn">Add Category</button>
+
+    <h3>Add New Affirmation/Quote</h3>
+    <input type="text" id="quoteTextInput" placeholder="Enter your quote or affirmation" />
+    <input type="text" id="quoteCategoryInput" placeholder="Category it belongs to" />
+    <button id="addQuoteBtn">Add Quote</button>
+
+    <div class="footer-note">
+      Your affirmations, your healing. Built with ❤️ by Virginia
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
