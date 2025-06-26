@@ -1,14 +1,11 @@
 // Load quotes from localStorage or use default
 let quotes = JSON.parse(localStorage.getItem("quotes")) || [
   { text: "You’ve survived 100% of your worst days — you’re doing better than you think.", category: "Resilience" },
-  { text: "Resilience is not about avoiding pain, it’s about feeling it and choosing yourself anyway.", category: "Resilience" },
   { text: "You are enough. Just as you are.", category: "Self-Love" },
-  { text: "Every time you choose yourself, you grow stronger.", category: "Self-Love" },
-  { text: "Let go with grace, not bitterness.", category: "Detachment" },
-  { text: "You don’t chase what’s yours — you align with it.", category: "Detachment" }
+  { text: "Let go with grace, not bitterness.", category: "Detachment" }
 ];
 
-// DOM elements
+// DOM references
 const categorySelect = document.getElementById("categorySelect");
 const quoteDisplay = document.getElementById("quoteDisplay");
 const showQuoteBtn = document.getElementById("showQuoteBtn");
@@ -35,7 +32,7 @@ function populateCategories() {
   });
 }
 
-// Display random quote and save to sessionStorage
+// Show random quote
 function showRandomQuote() {
   const selectedCategory = categorySelect.value;
   if (!selectedCategory) {
@@ -52,50 +49,50 @@ function showRandomQuote() {
   const randomQuote = filteredQuotes[Math.floor(Math.random() * filteredQuotes.length)];
   quoteDisplay.textContent = randomQuote.text;
 
-  // Store last viewed quote in sessionStorage
+  // Save to sessionStorage
   sessionStorage.setItem("lastViewedQuote", randomQuote.text);
 }
 
-// Add new quote
+// Add a new quote
 function addQuote() {
-  const newQuoteText = quoteTextInput.value.trim();
-  const newQuoteCategory = quoteCategoryInput.value.trim();
-
-  if (!newQuoteText || !newQuoteCategory) {
-    alert("Please enter both quote and category.");
+  const text = quoteTextInput.value.trim();
+  const category = quoteCategoryInput.value.trim();
+  if (!text || !category) {
+    alert("Please fill in both fields.");
     return;
   }
-
-  quotes.push({ text: newQuoteText, category: newQuoteCategory });
+  quotes.push({ text, category });
   saveQuotes();
   populateCategories();
-  alert("Quote added!");
   quoteTextInput.value = "";
   quoteCategoryInput.value = "";
+  alert("Quote added successfully!");
 }
 
-// Add new category
+// Add a new category
 function addCategory() {
   const newCategory = newCategoryInput.value.trim();
   if (!newCategory) {
-    alert("Please enter a category.");
+    alert("Enter a category name.");
     return;
   }
-
-  quotes.push({ text: `Your first quote in ${newCategory}.`, category: newCategory });
-  saveQuotes();
-  populateCategories();
-  alert("Category added!");
-  newCategoryInput.value = "";
+  if (!quotes.find(q => q.category === newCategory)) {
+    quotes.push({ text: `This is your first quote in ${newCategory}.`, category: newCategory });
+    saveQuotes();
+    populateCategories();
+    newCategoryInput.value = "";
+    alert("Category added!");
+  } else {
+    alert("Category already exists.");
+  }
 }
 
-// Export quotes to JSON
+// Export quotes to JSON file
 function exportQuotesToJson() {
   const dataStr = JSON.stringify(quotes, null, 2);
   const blob = new Blob([dataStr], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const downloadLink = document.createElement("a");
-
   downloadLink.href = url;
   downloadLink.download = "quotes.json";
   downloadLink.click();
@@ -111,4 +108,21 @@ function importFromJsonFile(event) {
         quotes.push(...importedQuotes);
         saveQuotes();
         populateCategories();
-        alert("Quotes imported successfully!"
+        alert("Quotes imported successfully!");
+      } else {
+        alert("Invalid JSON structure.");
+      }
+    } catch (err) {
+      alert("Error parsing the file.");
+    }
+  };
+  fileReader.readAsText(event.target.files[0]);
+}
+
+// Initial load
+populateCategories();
+
+// ✅ Add all event listeners
+showQuoteBtn.addEventListener("click", showRandomQuote);
+addQuoteBtn.addEventListener("click", addQuote);
+addCategoryBtn.addEventListener("click", addCategory);
