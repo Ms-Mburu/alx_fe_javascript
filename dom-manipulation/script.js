@@ -179,3 +179,35 @@ populateCategories();
 showQuoteBtn.addEventListener("click", showRandomQuote);
 addQuoteBtn.addEventListener("click", addQuote);
 addCategoryBtn.addEventListener("click", addCategory);
+function syncWithServer() {
+  fetch('mockServerQuotes.json') // Update with real URL if needed
+    .then(res => res.json())
+    .then(serverQuotes => {
+      let updated = false;
+      serverQuotes.forEach(serverQuote => {
+        const exists = quotes.some(localQuote => localQuote.text === serverQuote.text);
+        if (!exists) {
+          quotes.push(serverQuote);
+          updated = true;
+        }
+      });
+
+      if (updated) {
+        saveQuotes();
+        populateCategories();
+        filterQuotes();
+        notifySync("Quotes synced from server.");
+      }
+    })
+    .catch(err => console.error("Sync failed:", err));
+}
+
+// UI Notification
+function notifySync(message) {
+  const alertBox = document.createElement("div");
+  alertBox.textContent = message;
+  alertBox.style.cssText = "background:#dff0d8; color:#3c763d; padding:10px; margin-top:10px; text-align:center;";
+  document.body.insertBefore(alertBox, document.body.firstChild);
+  setTimeout(() => alertBox.remove(), 4000);
+}
+setInterval(syncWithServer, 60000); // Sync every 60 seconds
