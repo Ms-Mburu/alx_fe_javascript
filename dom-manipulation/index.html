@@ -94,7 +94,13 @@
 
     <div id="quoteDisplay" class="quote-display">
       Pick a category and receive a gentle reminder.
+    <!-- JSON Import / Export -->
+    <div class="json-section">
+      <h3>Import / Export Quotes</h3>
+      <button onclick="exportQuotesToJson()">Export Quotes</button>
+      <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
     </div>
+  </div>
 
     <hr />
 
