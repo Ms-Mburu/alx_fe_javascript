@@ -230,7 +230,7 @@ async function syncWithServer() {
     saveQuotes();
     populateCategories();
     filterQuotes();
-    notifySync(`${newCount} new quote(s) synced from server.`);
+    notifySync("Quotes synced with server!");
   }
 }
 
