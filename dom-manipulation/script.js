@@ -1,4 +1,5 @@
-const API_BASE_URL = "https://685d868e769de2bf0860f800.mockapi.io/api/v1/quotes";
+const API_BASE_URL = "https://jsonplaceholder.typicode.com/posts";
+
 
 // Load quotes from localStorage or use defaults
 let quotes = JSON.parse(localStorage.getItem("quotes")) || [
@@ -177,24 +178,39 @@ function importFromJsonFile(event) {
 async function fetchQuotesFromServer() {
   try {
     const res = await fetch(API_BASE_URL);
-    return await res.json();
+    const serverData = await res.json();
+
+    // Extract valid quote data (simulate structure)
+    return serverData
+      .filter(post => post.title && post.body)
+      .map(post => ({
+        text: post.title,
+        category: "Imported",
+        timestamp: new Date().toISOString()
+      }));
   } catch (err) {
     console.error("Fetch error:", err);
     return [];
   }
 }
 
+
 async function postQuoteToServer(quote) {
   try {
     await fetch(API_BASE_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(quote)
+      body: JSON.stringify({
+        title: quote.text,
+        body: quote.category,
+        userId: 1 // placeholder structure requires this
+      })
     });
   } catch (err) {
     console.error("Post error:", err);
   }
 }
+
 
 async function syncWithServer() {
   const serverQuotes = await fetchQuotesFromServer();
