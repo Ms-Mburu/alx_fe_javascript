@@ -29,7 +29,6 @@ function saveQuotes() {
 function populateCategories() {
   const uniqueCategories = [...new Set(quotes.map(q => q.category))];
 
-  // Main quote category selector
   categorySelect.innerHTML = `<option value="">--Select--</option>`;
   uniqueCategories.forEach(cat => {
     const option = document.createElement("option");
@@ -38,7 +37,6 @@ function populateCategories() {
     categorySelect.appendChild(option);
   });
 
-  // Filter dropdown
   if (categoryFilter) {
     categoryFilter.innerHTML = `<option value="all">All Categories</option>`;
     uniqueCategories.forEach(cat => {
@@ -72,7 +70,6 @@ function showRandomQuote() {
 
   const randomQuote = filteredQuotes[Math.floor(Math.random() * filteredQuotes.length)];
   quoteDisplay.textContent = randomQuote.text;
-
   sessionStorage.setItem("lastViewedQuote", randomQuote.text);
 }
 
@@ -207,6 +204,9 @@ async function syncWithServer() {
     if (!quotes.some(local => local.text === serverQuote.text)) {
       quotes.push(serverQuote);
       newCount++;
+      function syncQuotes() {
+  syncWithServer();
+}
     }
   });
 
@@ -218,6 +218,7 @@ async function syncWithServer() {
   }
 }
 
+// UI notification
 function notifySync(message) {
   const alertBox = document.createElement("div");
   alertBox.textContent = message;
@@ -226,7 +227,7 @@ function notifySync(message) {
   setTimeout(() => alertBox.remove(), 4000);
 }
 
-// Start
+// Initialize
 populateCategories();
 showQuoteBtn.addEventListener("click", showRandomQuote);
 addQuoteBtn.addEventListener("click", addQuote);
@@ -234,3 +235,6 @@ addCategoryBtn.addEventListener("click", addCategory);
 if (categoryFilter) categoryFilter.addEventListener("change", filterQuotes);
 if (importInput) importInput.addEventListener("change", importFromJsonFile);
 setInterval(syncWithServer, 60000); // Sync every 60 seconds
+function syncQuotes() {
+  syncWithServer();
+}
