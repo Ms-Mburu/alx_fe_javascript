@@ -21,6 +21,10 @@ const categoryFilter = document.getElementById("categoryFilter");
 const filteredQuotesDiv = document.getElementById("filteredQuotes");
 const importInput = document.getElementById("importFile");
 
+function createAddQuoteForm() {
+  console.log("Add Quote form already present in HTML. No need to create dynamically.");
+}
+
 // Save to localStorage
 function saveQuotes() {
   localStorage.setItem("quotes", JSON.stringify(quotes));
